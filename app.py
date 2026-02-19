@@ -2742,19 +2742,6 @@ else:  # page == "상세보기"
     _translation_dir = _safe_join(DATA_DIR, "output", "번역비교결과")
     _all_countries = []
 
-    # ── 디버그 ──
-    st.write(f"**[DEBUG] DATA_DIR:** `{DATA_DIR}`")
-    st.write(f"**[DEBUG] translation_dir:** `{_translation_dir}`")
-    st.write(f"**[DEBUG] dir exists:** `{os.path.isdir(_translation_dir)}`")
-    if os.path.isdir(_translation_dir):
-        _raw_list = os.listdir(_translation_dir)
-        st.write(f"**[DEBUG] listdir:** `{_raw_list}`")
-        for _item in _raw_list:
-            _item_path = os.path.join(_translation_dir, _item)
-            st.write(f"**[DEBUG] item:** `{repr(_item)}` / isdir: `{os.path.isdir(_item_path)}` / safe_join exists: `{os.path.isdir(_safe_join(_translation_dir, _item))}`")
-    st.write(f"**[DEBUG] result_files:** `{result_files}`")
-    # ── 디버그 끝 ──
-
     if os.path.isdir(_translation_dir):
         _all_countries = sorted([
             d for d in os.listdir(_translation_dir)
