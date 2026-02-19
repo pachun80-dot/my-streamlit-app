@@ -2761,14 +2761,17 @@ else:  # page == "상세보기"
             if os.path.isdir(os.path.join(_translation_dir, d)) and d != "한국"
         ])
 
-    # 파일을 국가별로 분류
-    _detail_country_files: dict = {c: [] for c in _all_countries}
+    # 파일을 국가별로 분류 (NFC 정규화로 한글 폴더명 불일치 방지)
+    import unicodedata as _ud
+    _detail_country_files: dict = {_ud.normalize("NFC", c): [] for c in _all_countries}
+    _all_countries = [_ud.normalize("NFC", c) for c in _all_countries]
     for _f in result_files:
         _rel = _f.replace("\\", "/")
-        _parts = _rel.split("/")
-        if "번역비교결과" in _parts:
-            _idx = _parts.index("번역비교결과")
-            _c = _parts[_idx + 1] if _idx + 1 < len(_parts) - 1 else "(기타)"
+        _parts = [_ud.normalize("NFC", p) for p in _rel.split("/")]
+        _nfc_parts = [_ud.normalize("NFC", p) for p in _rel.split("/")]
+        if "번역비교결과" in _nfc_parts:
+            _idx = _nfc_parts.index("번역비교결과")
+            _c = _nfc_parts[_idx + 1] if _idx + 1 < len(_nfc_parts) - 1 else "(기타)"
         else:
             _c = "(기타)"
         if _c in _detail_country_files:
