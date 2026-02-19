@@ -614,8 +614,13 @@ def _list_result_files() -> list[str]:
 
     # 중복 제거 및 최신순 정렬
     files = list(dict.fromkeys(files))
+    def _safe_mtime(f):
+        try:
+            return os.path.getmtime(f)
+        except Exception:
+            return 0
     return sorted([f for f in files if not _basename(f).startswith("~$")],
-                  key=os.path.getmtime, reverse=True)
+                  key=_safe_mtime, reverse=True)
 
 
 def _safe_glob(directory: str, pattern: str) -> list[str]:
