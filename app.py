@@ -43,8 +43,8 @@ PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 if sys.platform == "win32":
     DATA_DIR = os.environ.get("DATA_DIR", r"C:\Users\milhi\Desktop\DATA")
 else:
-    DATA_DIR = os.environ.get("DATA_DIR", PROJECT_DIR)
-
+    DATA_DIR = os.environ.get("DATA_DIR", os.path.join(PROJECT_DIR, "DATA"))
+    
 COUNTRY_MAP = {
     "남아프리카공화국": "SOUTH_AFRICA",
     "뉴질랜드": "NEWZEALAND",
