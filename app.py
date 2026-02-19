@@ -597,15 +597,15 @@ def _list_result_files() -> list[str]:
     files = []
     translation_dir = _safe_join(DATA_DIR, "output", "번역비교결과")
 
-    # 국가별 하위 폴더에서 검색 (실제 폴더 전체 스캔)
+    # 국가별 하위 폴더에서 검색 (NFC/NFD 호환 방식)
     if os.path.isdir(translation_dir):
         for entry in sorted(os.listdir(translation_dir)):
-            country_dir = os.path.join(translation_dir, entry)
+            country_dir = _safe_join(translation_dir, entry)
             if os.path.isdir(country_dir):
-                files.extend(glob.glob(os.path.join(country_dir, "*.xlsx")))
+                files.extend(_safe_glob(country_dir, "*.xlsx"))
 
         # 하위 호환성: 번역비교결과 폴더 루트의 파일도 포함
-        files.extend(glob.glob(os.path.join(translation_dir, "*.xlsx")))
+        files.extend(_safe_glob(translation_dir, "*.xlsx"))
 
     # 하위 호환성: 기존 output 폴더의 번역 파일도 포함
     output_dir = _safe_join(DATA_DIR, "output")
